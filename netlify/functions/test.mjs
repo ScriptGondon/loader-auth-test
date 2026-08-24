@@ -1,4 +1,9 @@
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default async (req) => {
   const auth = req.headers.get("authorization");
@@ -12,7 +17,8 @@ export default async (req) => {
     });
   }
 
-  const lua = fs.readFileSync("test.lua", "utf8");
+  const luaPath = path.join(__dirname, "../../test.lua");
+  const lua = fs.readFileSync(luaPath, "utf8");
 
   return new Response(lua, {
     status: 200,
